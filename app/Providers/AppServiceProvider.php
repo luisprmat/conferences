@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Filament\Forms\Components\Component;
+use Filament\Tables\Columns\Column;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,5 +23,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+
+        Component::configureUsing(function (Component $component) {
+            $component
+                ->translateLabel();
+        });
+
+        Column::configureUsing(function (Column $column) {
+            $column
+                ->translateLabel();
+        });
     }
 }
