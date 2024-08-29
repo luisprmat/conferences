@@ -26,18 +26,29 @@ class ConferenceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->default('Mi conferencia')
+                    ->helperText(__('The name of the conference.'))
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('start_date')
+                    ->maxLength(60),
+                Forms\Components\MarkdownEditor::make('description')
+                    ->helperText(__('You can use Markdown syntax.'))
+                    ->required(),
+                Forms\Components\DatePicker::make('start_date')
+                    ->native(false)
                     ->required(),
                 Forms\Components\DateTimePicker::make('end_date')
+                    ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Checkbox::make('is_published')
+                    ->default(true),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'scheduled' => 'Scheduled',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ])
+                    ->required(),
                 Forms\Components\TextInput::make('region')
                     ->required()
                     ->maxLength(255),
