@@ -12,25 +12,17 @@ class Talk extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $fillable = [
-        'name',
-        'abstract',
-        'speaker_id',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'speaker_id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'speaker_id' => 'integer',
+        ];
+    }
 
     public function speaker(): BelongsTo
     {

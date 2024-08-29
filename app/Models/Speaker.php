@@ -11,25 +11,16 @@ class Speaker extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'bio',
-        'xcom_handle',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+        ];
+    }
 
     public function conferences(): BelongsToMany
     {

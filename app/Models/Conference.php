@@ -12,31 +12,19 @@ class Conference extends Model
     use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $fillable = [
-        'name',
-        'description',
-        'start_date',
-        'end_date',
-        'status',
-        'region',
-        'venue_id',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'start_date' => 'datetime',
-        'end_date' => 'datetime',
-        'venue_id' => 'integer',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
+            'venue_id' => 'integer',
+        ];
+    }
 
     public function venue(): BelongsTo
     {
