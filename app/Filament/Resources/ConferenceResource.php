@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Region;
 use App\Filament\Resources\ConferenceResource\Pages;
 use App\Models\Conference;
+use App\Models\Venue;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ConferenceResource extends Resource
 {
@@ -40,7 +43,7 @@ class ConferenceResource extends Resource
                     ->native(false)
                     ->required(),
                 Forms\Components\Checkbox::make('is_published')
-                    ->default(true),
+                    ->default(false),
                 Forms\Components\Select::make('status')
                     ->options([
                         'draft' => 'Draft',
@@ -49,11 +52,18 @@ class ConferenceResource extends Resource
                         'archived' => 'Archived',
                     ])
                     ->required(),
-                Forms\Components\TextInput::make('region')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('region')
+                    ->live()
+                    ->enum(Region::class)
+                    ->options(Region::class),
                 Forms\Components\Select::make('venue_id')
-                    ->relationship('venue', 'name'),
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm(Venue::getForm())
+                    ->editOptionForm(Venue::getForm())
+                    ->relationship('venue', 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
+                        return $query->where('region', $get('region'));
+                    }),
             ]);
     }
 
