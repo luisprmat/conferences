@@ -3,6 +3,13 @@
 declare(strict_types=1);
 
 return [
+    'conference' => [
+        'status' => [
+            'draft' => 'Draft',
+            'published' => 'Published',
+            'archived' => 'Archived',
+        ],
+    ],
     'speaker' => [
         'qualifications' => [
             'business_leader' => 'Business Leader',

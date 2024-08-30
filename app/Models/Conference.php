@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Conference\Status;
 use App\Enums\Region;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,6 +28,7 @@ class Conference extends Model
             'end_date' => 'datetime',
             'venue_id' => 'integer',
             'region' => Region::class,
+            'status' => Status::class,
         ];
     }
 
@@ -72,12 +74,7 @@ class Conference extends Model
                                 ->columns(1)
                                 ->schema([
                                     Forms\Components\Select::make('status')
-                                        ->options([
-                                            'draft' => 'Draft',
-                                            'scheduled' => 'Scheduled',
-                                            'published' => 'Published',
-                                            'archived' => 'Archived',
-                                        ])
+                                        ->options(Status::class)
                                         ->required(),
                                     Forms\Components\Toggle::make('is_published')
                                         ->default(false),
@@ -99,6 +96,26 @@ class Conference extends Model
                                 }),
                         ]),
                 ]),
+            Forms\Components\Actions::make([
+                Forms\Components\Actions\Action::make('star')
+                    ->label(__('Fill with factory data'))
+                    ->icon('heroicon-m-star')
+                    ->visible(function (string $operation) {
+                        if ($operation !== 'create') {
+                            return false;
+                        }
+
+                        if (! app()->environment('local')) {
+                            return false;
+                        }
+
+                        return true;
+                    })
+                    ->action(function ($livewire) {
+                        $data = Conference::factory()->make()->toArray();
+                        $livewire->form->fill($data);
+                    }),
+            ]),
             // Forms\Components\CheckboxList::make('speakers')
             //     ->relationship('speakers', 'name')
             //     ->options(
