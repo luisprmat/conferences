@@ -36,12 +36,16 @@ class Speaker extends Model
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
+            Forms\Components\FileUpload::make('avatar')
+                ->avatar()
+                ->directory('avatars')
+                ->imageEditor()
+                ->maxSize(1024 * 1024 * 2),
             Forms\Components\TextInput::make('email')
                 ->email()
                 ->required()
                 ->maxLength(255),
             Forms\Components\Textarea::make('bio')
-                ->required()
                 ->maxLength(65535)
                 ->columnSpanFull(),
             Forms\Components\TextInput::make('xcom_handle')
