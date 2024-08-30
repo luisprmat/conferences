@@ -2,17 +2,12 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Region;
 use App\Filament\Resources\ConferenceResource\Pages;
 use App\Models\Conference;
-use App\Models\Speaker;
-use App\Models\Venue;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ConferenceResource extends Resource
 {
@@ -28,50 +23,7 @@ class ConferenceResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->default('Mi conferencia')
-                    ->helperText(__('The name of the conference.'))
-                    ->required()
-                    ->maxLength(60),
-                Forms\Components\MarkdownEditor::make('description')
-                    ->helperText(__('You can use Markdown syntax.'))
-                    ->required(),
-                Forms\Components\DatePicker::make('start_date')
-                    ->native(false)
-                    ->required(),
-                Forms\Components\DateTimePicker::make('end_date')
-                    ->native(false)
-                    ->required(),
-                Forms\Components\Checkbox::make('is_published')
-                    ->default(false),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'scheduled' => 'Scheduled',
-                        'published' => 'Published',
-                        'archived' => 'Archived',
-                    ])
-                    ->required(),
-                Forms\Components\Select::make('region')
-                    ->live()
-                    ->enum(Region::class)
-                    ->options(Region::class),
-                Forms\Components\Select::make('venue_id')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm(Venue::getForm())
-                    ->editOptionForm(Venue::getForm())
-                    ->relationship('venue', 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
-                        return $query->where('region', $get('region'));
-                    }),
-                Forms\Components\CheckboxList::make('speakers')
-                    ->relationship('speakers', 'name')
-                    ->options(
-                        Speaker::pluck('name', 'id')
-                    )
-                    ->required(),
-            ]);
+            ->schema(Conference::getForm());
     }
 
     public static function table(Table $table): Table
