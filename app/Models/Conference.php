@@ -48,64 +48,63 @@ class Conference extends Model
     public static function getForm(): array
     {
         return [
-            Forms\Components\Section::make(__('Conference Details'))
-                ->collapsible()
-                ->description(__('Provide some basic information about the conference.'))
-                ->icon('heroicon-o-information-circle')
-                ->columns(2)
-                ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->columnSpanFull()
-                        ->default(__('My conference'))
-                        ->required()
-                        ->maxLength(60),
-                    Forms\Components\MarkdownEditor::make('description')
-                        ->columnSpanFull()
-                        ->helperText(__('You can use Markdown syntax.'))
-                        ->required(),
-                    Forms\Components\DateTimePicker::make('start_date')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\DateTimePicker::make('end_date')
-                        ->native(false)
-                        ->required(),
-                    Forms\Components\Fieldset::make('Status')
-                        ->columns(1)
+            Forms\Components\Tabs::make()
+                ->columnSpanFull()
+                ->tabs([
+                    Forms\Components\Tabs\Tab::make('Conference Details')
                         ->schema([
-                            Forms\Components\Select::make('status')
-                                ->options([
-                                    'draft' => 'Draft',
-                                    'scheduled' => 'Scheduled',
-                                    'published' => 'Published',
-                                    'archived' => 'Archived',
-                                ])
+                            Forms\Components\TextInput::make('name')
+                                ->columnSpanFull()
+                                ->default(__('My conference'))
+                                ->required()
+                                ->maxLength(60),
+                            Forms\Components\MarkdownEditor::make('description')
+                                ->columnSpanFull()
+                                ->helperText(__('You can use Markdown syntax.'))
                                 ->required(),
-                            Forms\Components\Toggle::make('is_published')
-                                ->default(false),
+                            Forms\Components\DateTimePicker::make('start_date')
+                                ->native(false)
+                                ->required(),
+                            Forms\Components\DateTimePicker::make('end_date')
+                                ->native(false)
+                                ->required(),
+                            Forms\Components\Fieldset::make('Status')
+                                ->columns(1)
+                                ->schema([
+                                    Forms\Components\Select::make('status')
+                                        ->options([
+                                            'draft' => 'Draft',
+                                            'scheduled' => 'Scheduled',
+                                            'published' => 'Published',
+                                            'archived' => 'Archived',
+                                        ])
+                                        ->required(),
+                                    Forms\Components\Toggle::make('is_published')
+                                        ->default(false),
+                                ]),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Location')
+                        ->schema([
+                            Forms\Components\Select::make('region')
+                                ->live()
+                                ->enum(Region::class)
+                                ->options(Region::class),
+                            Forms\Components\Select::make('venue_id')
+                                ->searchable()
+                                ->preload()
+                                ->createOptionForm(Venue::getForm())
+                                ->editOptionForm(Venue::getForm())
+                                ->relationship('venue', 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
+                                    return $query->where('region', $get('region'));
+                                }),
                         ]),
                 ]),
-            Forms\Components\Section::make(__('Location'))
-                ->columns(2)
-                ->schema([
-                    Forms\Components\Select::make('region')
-                        ->live()
-                        ->enum(Region::class)
-                        ->options(Region::class),
-                    Forms\Components\Select::make('venue_id')
-                        ->searchable()
-                        ->preload()
-                        ->createOptionForm(Venue::getForm())
-                        ->editOptionForm(Venue::getForm())
-                        ->relationship('venue', 'name', modifyQueryUsing: function (Builder $query, Forms\Get $get) {
-                            return $query->where('region', $get('region'));
-                        }),
-                ]),
-            Forms\Components\CheckboxList::make('speakers')
-                ->relationship('speakers', 'name')
-                ->options(
-                    Speaker::pluck('name', 'id')
-                )
-                ->required(),
+            // Forms\Components\CheckboxList::make('speakers')
+            //     ->relationship('speakers', 'name')
+            //     ->options(
+            //         Speaker::pluck('name', 'id')
+            //     )
+            //     ->required(),
         ];
     }
 }
