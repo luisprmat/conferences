@@ -10,6 +10,18 @@ return [
             'archived' => 'Archivado',
         ],
     ],
+    'talk' => [
+        'length' => [
+            'lightning' => 'Relámpago - 15 Minutos',
+            'normal' => 'Normal - 30 Minutos',
+            'keynote' => 'Conferencia de Presentación',
+        ],
+        'status' => [
+            'submitted' => 'Enviada',
+            'approved' => 'Aprobada',
+            'rejected' => 'Rechazada',
+        ],
+    ],
     'speaker' => [
         'qualifications' => [
             'business_leader' => 'Líder Empresarial',

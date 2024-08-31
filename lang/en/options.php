@@ -10,6 +10,18 @@ return [
             'archived' => 'Archived',
         ],
     ],
+    'talk' => [
+        'length' => [
+            'lightning' => 'Lightning - 15 Minutes',
+            'normal' => 'Normal - 30 Minutes',
+            'keynote' => 'Keynote',
+        ],
+        'status' => [
+            'submitted' => 'Submitted',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+        ],
+    ],
     'speaker' => [
         'qualifications' => [
             'business_leader' => 'Business Leader',
