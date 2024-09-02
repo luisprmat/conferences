@@ -41,10 +41,12 @@ class TalkResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextInputColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable()
-                    ->rules(['required', 'max:255'])
-                    ->sortable(),
+                    ->description(function (Talk $record) {
+                        return str($record->abstract)->limit(40);
+                    }),
                 Tables\Columns\ImageColumn::make('speaker.avatar')
                     ->label(__('Avatar'))
                     ->circular()
