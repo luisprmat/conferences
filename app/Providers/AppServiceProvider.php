@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Filament\Forms\Components\Component;
 use Filament\Tables\Columns\Column;
+use Filament\Tables\Filters\BaseFilter as Filter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
 
         Column::configureUsing(function (Column $column) {
             $column
+                ->translateLabel();
+        });
+
+        Filter::configureUsing(function (Filter $filter) {
+            $filter
                 ->translateLabel();
         });
     }

@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TalkResource extends Resource
 {
@@ -62,7 +63,20 @@ class TalkResource extends Resource
                 Tables\Columns\IconColumn::make('length'),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('new_talk'),
+                Tables\Filters\SelectFilter::make('speaker')
+                    ->relationship('speaker', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\Filter::make('has_avatar')
+                    ->label(__('Show Only Speakers with Avatars'))
+                    ->toggle()
+                    ->query(function ($query) {
+                        return $query->whereHas('speaker', function (Builder $query) {
+                            $query->whereNotNull('avatar');
+                        });
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
