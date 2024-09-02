@@ -42,18 +42,21 @@ class TalkResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable()
+                    ->description(function (Talk $record) {
+                        return str($record->abstract)->limit(40);
+                    }),
+                Tables\Columns\ImageColumn::make('speaker.avatar')
+                    ->label(__('Avatar'))
+                    ->circular()
+                    ->defaultImageUrl(function ($record) {
+                        return 'https://ui-avatars.com/api/?name='.urlencode($record->speaker->name).'&color=7F9CF5&background=EBF4FF';
+                    }),
                 Tables\Columns\TextColumn::make('speaker.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ToggleColumn::make('new_talk'),
             ])
             ->filters([
                 //
