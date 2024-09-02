@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Talk\Length;
 use App\Filament\Resources\TalkResource\Pages;
 use App\Models\Talk;
 use Filament\Forms;
@@ -41,12 +42,10 @@ class TalkResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextInputColumn::make('name')
                     ->searchable()
-                    ->sortable()
-                    ->description(function (Talk $record) {
-                        return str($record->abstract)->limit(40);
-                    }),
+                    ->rules(['required', 'max:255'])
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('speaker.avatar')
                     ->label(__('Avatar'))
                     ->circular()
@@ -57,6 +56,16 @@ class TalkResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('new_talk'),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
+                Tables\Columns\IconColumn::make('length')
+                    ->icon(function ($state) {
+                        return match ($state) {
+                            Length::Normal => 'heroicon-o-megaphone',
+                            Length::Lightning => 'heroicon-o-bolt',
+                            Length::Keynote => 'heroicon-o-key'
+                        };
+                    }),
             ])
             ->filters([
                 //
