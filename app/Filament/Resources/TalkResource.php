@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Talk\Status;
 use App\Filament\Resources\TalkResource\Pages;
 use App\Models\Talk;
 use Filament\Forms;
@@ -60,7 +61,8 @@ class TalkResource extends Resource
                 Tables\Columns\TextColumn::make('speaker.name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('new_talk'),
+                Tables\Columns\IconColumn::make('new_talk')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
                 Tables\Columns\IconColumn::make('length'),
@@ -86,6 +88,9 @@ class TalkResource extends Resource
                     ->slideOver(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('approve')
+                        ->visible(function ($record) {
+                            return $record->status !== (Status::Approved);
+                        })
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->action(function (Talk $record) {
@@ -103,6 +108,9 @@ class TalkResource extends Resource
                         ->icon('heroicon-o-no-symbol')
                         ->color('danger')
                         ->requiresConfirmation()
+                        ->visible(function ($record) {
+                            return $record->status !== (Status::Rejected);
+                        })
                         ->action(function (Talk $record) {
                             $record->reject();
                         })
