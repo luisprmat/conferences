@@ -45,6 +45,11 @@ return [
         ],
     ],
     'speaker' => [
+        'has_spoken' => [
+            'label' => 'Tiene charlas',
+            'yes' => 'Conferencista anterior',
+            'no' => 'No tiene charlas',
+        ],
         'qualifications' => [
             'business_leader' => 'Líder Empresarial',
             'charisma' => 'Orador Carismático',

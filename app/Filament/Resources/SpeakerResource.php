@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Talk\Status;
 use App\Filament\Resources\SpeakerResource\Pages;
 use App\Models\Speaker;
 use Filament\Forms\Form;
@@ -51,7 +52,6 @@ class SpeakerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
@@ -79,6 +79,20 @@ class SpeakerResource extends Resource
                                 Infolists\Components\TextEntry::make('xcom_handle')
                                     ->prefix('@')
                                     ->url(fn ($record) => 'https://x.com/'.$record->xcom_handle),
+                                Infolists\Components\TextEntry::make(__('options.speaker.has_spoken.label'))
+                                    ->getStateUsing(function ($record) {
+                                        return $record->talks()->where('status', Status::Approved)->count() > 0
+                                            ? __('options.speaker.has_spoken.yes')
+                                            : __('options.speaker.has_spoken.no');
+                                    })
+                                    ->badge()
+                                    ->color(function ($state) {
+                                        if ($state === __('options.speaker.has_spoken.yes')) {
+                                            return 'success';
+                                        }
+
+                                        return 'primary';
+                                    }),
                             ]),
                     ]),
                 Infolists\Components\Section::make(__('Other Information'))
@@ -101,7 +115,6 @@ class SpeakerResource extends Resource
         return [
             'index' => Pages\ListSpeakers::route('/'),
             'create' => Pages\CreateSpeaker::route('/create'),
-            'edit' => Pages\EditSpeaker::route('/{record}/edit'),
             'view' => Pages\ViewSpeaker::route('/{record}'),
         ];
     }

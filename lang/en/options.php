@@ -45,6 +45,11 @@ return [
         ],
     ],
     'speaker' => [
+        'has_spoken' => [
+            'label' => 'Has spoken',
+            'yes' => 'Previous Speaker',
+            'no' => 'Has Not Spoken',
+        ],
         'qualifications' => [
             'business_leader' => 'Business Leader',
             'charisma' => 'Charismatic Speaker',
