@@ -84,35 +84,37 @@ class TalkResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->slideOver(),
-                Tables\Actions\Action::make('approve')
-                    ->icon('heroicon-o-check-circle')
-                    ->color('success')
-                    ->action(function (Talk $record) {
-                        $record->approve();
-                    })
-                    ->after(function () {
-                        Notification::make()
-                            ->duration(2000)
-                            ->success()
-                            ->title(__('options.talk.notification.approved.title'))
-                            ->body(__('options.talk.notification.approved.body'))
-                            ->send();
-                    }),
-                Tables\Actions\Action::make('reject')
-                    ->icon('heroicon-o-no-symbol')
-                    ->color('danger')
-                    ->requiresConfirmation()
-                    ->action(function (Talk $record) {
-                        $record->reject();
-                    })
-                    ->after(function () {
-                        Notification::make()
-                            ->duration(2000)
-                            ->danger()
-                            ->title(__('options.talk.notification.rejected.title'))
-                            ->body(__('options.talk.notification.rejected.body'))
-                            ->send();
-                    }),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('approve')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(function (Talk $record) {
+                            $record->approve();
+                        })
+                        ->after(function () {
+                            Notification::make()
+                                ->duration(2000)
+                                ->success()
+                                ->title(__('options.talk.notification.approved.title'))
+                                ->body(__('options.talk.notification.approved.body'))
+                                ->send();
+                        }),
+                    Tables\Actions\Action::make('reject')
+                        ->icon('heroicon-o-no-symbol')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function (Talk $record) {
+                            $record->reject();
+                        })
+                        ->after(function () {
+                            Notification::make()
+                                ->duration(2000)
+                                ->danger()
+                                ->title(__('options.talk.notification.rejected.title'))
+                                ->body(__('options.talk.notification.rejected.body'))
+                                ->send();
+                        }),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
