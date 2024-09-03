@@ -16,6 +16,12 @@ return [
             'normal' => 'Normal - 30 Minutes',
             'keynote' => 'Keynote',
         ],
+        'filter' => [
+            'all' => 'All Talks',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'submitted' => 'Submitted',
+        ],
         'status' => [
             'submitted' => 'Submitted',
             'approved' => 'Approved',

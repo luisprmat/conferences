@@ -16,6 +16,12 @@ return [
             'normal' => 'Normal - 30 Minutos',
             'keynote' => 'Conferencia de Presentación',
         ],
+        'filter' => [
+            'all' => 'Todas las charlas',
+            'approved' => 'Aprobadas',
+            'rejected' => 'Rechazadas',
+            'submitted' => 'Enviadas',
+        ],
         'status' => [
             'submitted' => 'Enviada',
             'approved' => 'Aprobada',
