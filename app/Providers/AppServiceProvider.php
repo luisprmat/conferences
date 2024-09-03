@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Filament\Actions\StaticAction as Action;
 use Filament\Forms\Components\Component;
+use Filament\Infolists\Components\Component as InfolistComponent;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter as Filter;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
 
         Column::configureUsing(function (Column $column) {
             $column
+                ->translateLabel();
+        });
+
+        InfolistComponent::configureUsing(function (InfolistComponent $component) {
+            $component
                 ->translateLabel();
         });
 

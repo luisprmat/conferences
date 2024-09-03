@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SpeakerResource\Pages;
 use App\Models\Speaker;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -56,6 +58,34 @@ class SpeakerResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make(__('Personal Information'))
+                    ->columns(3)
+                    ->schema([
+                        Infolists\Components\ImageEntry::make('avatar')
+                            ->circular(),
+                        Infolists\Components\Group::make()
+                            ->columns(2)
+                            ->columnSpan(2)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('name'),
+                                Infolists\Components\TextEntry::make('email'),
+                                Infolists\Components\TextEntry::make('xcom_handle')
+                                    ->prefix('@')
+                                    ->url(fn ($record) => 'https://x.com/'.$record->xcom_handle),
+                            ]),
+                    ]),
+                Infolists\Components\Section::make(__('Other Information'))
+                    ->schema([
+                        Infolists\Components\TextEntry::make('bio'),
+                        Infolists\Components\TextEntry::make('qualifications'),
+                    ]),
             ]);
     }
 
