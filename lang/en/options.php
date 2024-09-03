@@ -3,6 +3,12 @@
 declare(strict_types=1);
 
 return [
+    'actions' => [
+        'export' => [
+            'tooltip' => 'This will export all records visible in the table. Adjust filters to export a subset of records.',
+            'count' => 'Exporting :count registers.',
+        ],
+    ],
     'conference' => [
         'status' => [
             'draft' => 'Draft',

@@ -3,6 +3,12 @@
 declare(strict_types=1);
 
 return [
+    'actions' => [
+        'export' => [
+            'tooltip' => 'Esto exportará todos los registros visibles en la tabla. Ajuste los filtros para exportar un subconjunto de registros.',
+            'count' => 'Exportando :count registros.',
+        ],
+    ],
     'conference' => [
         'status' => [
             'draft' => 'Borrador',

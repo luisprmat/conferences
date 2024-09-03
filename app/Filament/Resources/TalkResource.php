@@ -85,8 +85,7 @@ class TalkResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->slideOver(),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('approve')
                         ->visible(function ($record) {
@@ -136,6 +135,15 @@ class TalkResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('export')
+                    ->tooltip(__('options.actions.export.tooltip'))
+                    ->action(function ($livewire) {
+                        dd(__('options.actions.export.count', [
+                            'count' => $livewire->getFilteredTableQuery()->count(),
+                        ]));
+                    }),
             ]);
     }
 
