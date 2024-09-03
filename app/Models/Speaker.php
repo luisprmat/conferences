@@ -51,7 +51,7 @@ class Speaker extends Model
                 ->email()
                 ->required()
                 ->maxLength(255),
-            Forms\Components\Textarea::make('bio')
+            Forms\Components\RichEditor::make('bio')
                 ->maxLength(65535)
                 ->columnSpanFull(),
             Forms\Components\TextInput::make('xcom_handle')

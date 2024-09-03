@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Speaker\Qualification;
 use App\Enums\Talk\Status;
 use App\Filament\Resources\SpeakerResource\Pages;
 use App\Models\Speaker;
@@ -97,8 +98,14 @@ class SpeakerResource extends Resource
                     ]),
                 Infolists\Components\Section::make(__('Other Information'))
                     ->schema([
-                        Infolists\Components\TextEntry::make('bio'),
-                        Infolists\Components\TextEntry::make('qualifications'),
+                        Infolists\Components\TextEntry::make('bio')
+                            ->extraAttributes(['class' => 'prose dark:prose-invert'])
+                            // ->prose()
+                            ->html(),
+                        Infolists\Components\TextEntry::make('qualifications')
+                            ->formatStateUsing(fn (string $state) => Qualification::from($state))
+                            ->listWithLineBreaks()
+                            ->bulleted(),
                     ]),
             ]);
     }
