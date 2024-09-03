@@ -37,4 +37,22 @@ class Talk extends Model
     {
         return $this->belongsToMany(Conference::class);
     }
+
+    public function approve(): void
+    {
+        $this->status = Status::Approved;
+
+        // Notify to speaker.
+
+        $this->save();
+    }
+
+    public function reject(): void
+    {
+        $this->status = Status::Rejected;
+
+        // Notify to speaker.
+
+        $this->save();
+    }
 }

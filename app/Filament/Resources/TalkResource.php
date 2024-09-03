@@ -6,6 +6,7 @@ use App\Filament\Resources\TalkResource\Pages;
 use App\Models\Talk;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -81,7 +82,36 @@ class TalkResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->slideOver(),
+                Tables\Actions\Action::make('approve')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->action(function (Talk $record) {
+                        $record->approve();
+                    })
+                    ->after(function () {
+                        Notification::make()
+                            ->duration(2000)
+                            ->success()
+                            ->title(__('options.talk.notification.approved.title'))
+                            ->body(__('options.talk.notification.approved.body'))
+                            ->send();
+                    }),
+                Tables\Actions\Action::make('reject')
+                    ->icon('heroicon-o-no-symbol')
+                    ->color('danger')
+                    ->action(function (Talk $record) {
+                        $record->reject();
+                    })
+                    ->after(function () {
+                        Notification::make()
+                            ->duration(2000)
+                            ->danger()
+                            ->title(__('options.talk.notification.rejected.title'))
+                            ->body(__('options.talk.notification.rejected.body'))
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -102,7 +132,7 @@ class TalkResource extends Resource
         return [
             'index' => Pages\ListTalks::route('/'),
             'create' => Pages\CreateTalk::route('/create'),
-            'edit' => Pages\EditTalk::route('/{record}/edit'),
+            // 'edit' => Pages\EditTalk::route('/{record}/edit'),
         ];
     }
 }

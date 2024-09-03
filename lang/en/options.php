@@ -22,6 +22,16 @@ return [
             'rejected' => 'Rejected',
             'submitted' => 'Submitted',
         ],
+        'notification' => [
+            'approved' => [
+                'title' => 'This talk was approved',
+                'body' => 'The speaker has been notified and the talk has been added to the conference schedule.',
+            ],
+            'rejected' => [
+                'title' => 'This talk was rejected',
+                'body' => 'The speaker has been notified.',
+            ],
+        ],
         'status' => [
             'submitted' => 'Submitted',
             'approved' => 'Approved',

@@ -22,6 +22,16 @@ return [
             'rejected' => 'Rechazadas',
             'submitted' => 'Enviadas',
         ],
+        'notification' => [
+            'approved' => [
+                'title' => 'Esta charla fue aprobada.',
+                'body' => 'Se notificó al conferencista y la charla se agregó al programa de la conferencia.',
+            ],
+            'rejected' => [
+                'title' => 'Esta charla fue rechazada.',
+                'body' => 'El conferencista ha sido notificado.',
+            ],
+        ],
         'status' => [
             'submitted' => 'Enviada',
             'approved' => 'Aprobada',

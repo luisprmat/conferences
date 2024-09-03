@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Actions\StaticAction as Action;
 use Filament\Forms\Components\Component;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter as Filter;
@@ -37,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
 
         Filter::configureUsing(function (Filter $filter) {
             $filter
+                ->translateLabel();
+        });
+
+        Action::configureUsing(function (Action $action) {
+            $action
                 ->translateLabel();
         });
     }
