@@ -16,6 +16,12 @@ return [
             'archived' => 'Archivado',
         ],
     ],
+    'notifications' => [
+        'sign_up_successful' => [
+            'title' => '¡Éxito!',
+            'body' => 'Se ha registrado exitosamente en la conferencia.',
+        ],
+    ],
     'talk' => [
         'length' => [
             'lightning' => 'Relámpago - 15 Minutos',

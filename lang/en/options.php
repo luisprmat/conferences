@@ -16,6 +16,12 @@ return [
             'archived' => 'Archived',
         ],
     ],
+    'notifications' => [
+        'sign_up_successful' => [
+            'title' => 'Success!',
+            'body' => 'You have successfully signed up for the conference.',
+        ],
+    ],
     'talk' => [
         'length' => [
             'lightning' => 'Lightning - 15 Minutes',
