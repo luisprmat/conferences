@@ -6,6 +6,8 @@ use Filament\Actions\CreateAction;
 use Filament\Actions\StaticAction as Action;
 use Filament\Forms\Components\Component;
 use Filament\Infolists\Components\Component as InfolistComponent;
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\BaseFilter as Filter;
 use Illuminate\Database\Eloquent\Model;
@@ -57,5 +59,9 @@ class AppServiceProvider extends ServiceProvider
             return $action
                 ->slideOver();
         });
+
+        FilamentColor::register([
+            'primary' => Color::Indigo,
+        ]);
     }
 }
