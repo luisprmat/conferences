@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Talk\Length;
 use App\Enums\Talk\Status;
+use Filament\Forms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,5 +55,21 @@ class Talk extends Model
         // Notify to speaker.
 
         $this->save();
+    }
+
+    public static function getForm($speakerId = null): array
+    {
+        return [
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+            Forms\Components\RichEditor::make('abstract')
+                ->required()
+                ->columnSpanFull(),
+            Forms\Components\Select::make('speaker_id')
+                ->hidden(fn () => $speakerId !== null)
+                ->relationship('speaker', 'name')
+                ->required(),
+        ];
     }
 }

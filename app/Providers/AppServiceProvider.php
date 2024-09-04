@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Actions\CreateAction;
 use Filament\Actions\StaticAction as Action;
 use Filament\Forms\Components\Component;
 use Filament\Infolists\Components\Component as InfolistComponent;
@@ -50,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         Action::configureUsing(function (Action $action) {
             $action
                 ->translateLabel();
+        });
+
+        CreateAction::configureUsing(function ($action) {
+            return $action
+                ->slideOver();
         });
     }
 }
