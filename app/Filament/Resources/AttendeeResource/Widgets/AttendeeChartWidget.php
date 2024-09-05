@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\AttendeeResource\Widgets;
 
+use App\Models\Attendee;
 use Filament\Widgets\ChartWidget;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
 
 class AttendeeChartWidget extends ChartWidget
 {
@@ -17,14 +20,22 @@ class AttendeeChartWidget extends ChartWidget
 
     protected function getData(): array
     {
+        $data = Trend::model(Attendee::class)
+            ->between(
+                start: now()->subMonths(3),
+                end: now(),
+            )
+            ->perMonth()
+            ->count();
+
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
-                    'data' => [0, 10, 5, 2, 21, 32, 45, 74, 65, 45, 77, 89],
+                    'label' => __('Signups'),
+                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            'labels' => $data->map(fn (TrendValue $value) => $value->date),
         ];
     }
 
