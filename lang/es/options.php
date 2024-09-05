@@ -69,4 +69,11 @@ return [
             'unique_perspective' => 'Perspectiva Única',
         ],
     ],
+    'widgets' => [
+        'filters' => [
+            'week' => 'Última semana',
+            'month' => 'Último mes',
+            'last_months' => 'Últimos :months meses',
+        ],
+    ],
 ];
